@@ -17,3 +17,5 @@ const startTimer = () => {
 }
 
 btnStart.addEventListener('click', startTimer);
+
+// комментарий чтобы содзать пул реквест
