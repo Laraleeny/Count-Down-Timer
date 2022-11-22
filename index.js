@@ -12,9 +12,20 @@ let intervalID = null;
 
 timerDate = dateMonth.value;
 
+
 // сброс - все в начальное состояние
 const handleReset = () => {
-  console.log("Reset");
+  timerHeader.textContent = 'Создать новый таймер обратного отсчета';
+  header.value = '';
+  dateMonth.valueAsDate = null;
+  //скрыть кнопку "Сброс" и вывести кнопку "Начать"
+   btnStart.classList.remove("hide");
+   btnReset.classList.add("hide");
+   //скрыть блок с аутпут и вывести блок с инпутам
+   blockInput.classList.remove("hide");
+   blockOutput.classList.add("hide");
+   localStorage.removeItem('header');
+   localStorage.removeItem('date');
 };
 
 btnReset.addEventListener("click", handleReset);
@@ -60,10 +71,11 @@ const countDown = () => {
 const startTimer = () => {
   //меняем значение заголовка
   timerHeader.innerHTML = header.value;
-  header.value = "";
+  localStorage.setItem('header', header.value);
 
   //дату отсчета запоминаем в переменную
   timerDate = dateMonth.value;
+  localStorage.setItem('date', timerDate);
   //проверка значения даты
   //проверка дата уже прошла
   if (moment(timerDate).isBefore(currentDate)) {
@@ -79,5 +91,17 @@ const startTimer = () => {
     intervalID = setInterval(countDown, 1000);
   }
 };
+
+const isStorage = () => {
+  if (localStorage.getItem('header') !== '') {
+    timerHeader.textContent = localStorage.getItem('header');
+  };
+  if (localStorage.getItem('date') !== '') {
+    timerDate = localStorage.getItem('date');
+  }
+  startTimer();
+}
+
+isStorage();
 
 btnStart.addEventListener("click", startTimer);
