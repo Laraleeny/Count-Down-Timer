@@ -13,7 +13,6 @@ let currentDate = moment(); // дата на сегодняшний день
 let timerDate, headerValue;
 let intervalID = null;
 
-timerDate = dateMonth.value;
 
 // сброс - все в начальное состояние
 const handleReset = () => {
