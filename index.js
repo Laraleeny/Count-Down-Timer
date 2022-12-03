@@ -6,18 +6,22 @@ const btnReset = document.querySelector('#btn-reset');
 const blockInput = document.querySelector('.input');
 const blockOutput = document.querySelector('.output');
 const dateMonth = document.querySelector('#date');
+const headerComplete = document.querySelector('.complete');
+const headerStorage = localStorage.getItem('header');
+const dateStorage = localStorage.getItem('date');
 let currentDate = moment(); // дата на сегодняшний день
 let timerDate, headerValue;
 let intervalID = null;
 
 timerDate = dateMonth.value;
-headerValue = header.value;
+
 // сброс - все в начальное состояние
 const handleReset = () => {
+  clearInterval(intervalID);
   timerHeader.textContent = 'Создать новый таймер обратного отсчета';
   header.value = '';
   dateMonth.valueAsDate = null;
-  document.querySelector('.complete').textContent = '';
+  headerComplete.textContent = '';
 
   //скрыть кнопку "Сброс" и вывести кнопку "Начать"
    btnStart.classList.remove('hide');
@@ -53,10 +57,8 @@ const countDown = () => {
   //проверка на завершение таймера
   if (moment(timerDate).diff(currentDate) <= 0) {
     clearInterval(intervalID);
-    document.querySelector('.complete').classList.remove('hide');
-    document.querySelector(
-      '.complete'
-    ).textContent = `${headerValue} завершился ${timerDate}`;
+    headerComplete.classList.remove('hide');
+    headerComplete.textContent = `${headerValue} завершился ${timerDate}`;
     return;
   }
   const days = Math.floor(moment(timerDate).diff(currentDate, 'days'));
@@ -104,14 +106,12 @@ const startTimer = () => {
 };
 
 const isStorage = () => {
-  if (!localStorage.getItem('header') 
-  && !localStorage.getItem('date')){
+  if (!headerStorage && !dateStorage){
     return;
   }
-  if (!!localStorage.getItem('header') 
-  && !!localStorage.getItem('date')) {
-    timerHeader.textContent = localStorage.getItem('header');
-    timerDate = localStorage.getItem('date');
+  if (!!headerStorage) {
+    timerHeader.textContent = headerStorage;
+    timerDate = dateStorage;
   }
   
   startCount();
