@@ -105,6 +105,8 @@ const startTimer = () => {
 };
 
 const isStorage = () => {
+  const headerStorage = localStorage.getItem('header');
+  const dateStorage = localStorage.getItem('date');
   if (!headerStorage && !dateStorage){
     return;
   }
