@@ -7,12 +7,44 @@ const blockInput = document.querySelector('.input');
 const blockOutput = document.querySelector('.output');
 const dateMonth = document.querySelector('#date');
 const headerComplete = document.querySelector('.complete');
-const headerStorage = localStorage.getItem('header');
-const dateStorage = localStorage.getItem('date');
-let currentDate = moment(); // дата на сегодняшний день
-let timerDate, headerValue;
+// let currentDate = moment(); // дата на сегодняшний день
+// let timerDate;
+let headerValue;
 let intervalID = null;
 
+class Timer {
+  constructor(date) {
+    this.timerDate = date;
+    this.currentDate = null;
+  }
+
+  //создаем функцию для добовления "0" перед значением
+  putZero(dateID) {
+    return dateID < 10 ? "0" + dateID : dateID;
+  }
+
+  //создаем функцию с обратным отсчетом
+  countDown() {
+    this.currentDate = moment();
+  //проверка на завершение таймера
+    if (moment(this.timerDate).diff(this.currentDate) <= 0) {
+    clearInterval(intervalID);
+    headerComplete.classList.remove('hide');
+    headerComplete.textContent = `${headerValue} завершился ${this.timerDate}`;
+    return;
+    }
+    const days = Math.floor(moment(this.timerDate).diff(this.currentDate, 'days'));
+    const hours = Math.floor(moment(this.timerDate).diff(this.currentDate, 'hours') % 24);
+    const minutes = Math.floor(
+    moment(this.timerDate).diff(this.currentDate, 'minutes') % 60);
+    const seconds = Math.floor(
+    moment(this.timerDate).diff(this.currentDate, 'seconds') % 60);
+    document.querySelector('.numbers').textContent = 
+    `${timer.putZero(days)}:${timer.putZero(hours)}:${timer.putZero(minutes)}:${timer.putZero(seconds)}`;
+    };
+}
+
+let timer = new Timer(dateMonth.value);
 
 // сброс - все в начальное состояние
 const handleReset = () => {
@@ -44,38 +76,11 @@ const switchScreen = () => {
   blockOutput.classList.remove('hide');
 };
 
-//создаем функцию для добовления "0" перед значением
-const putZero = (dateID) => {
-  let result = dateID < 10 ? "0" + dateID : dateID;
-  return result;
-};
-
-//создаем функцию с обратным отсчетом
-const countDown = () => {
-   currentDate = moment();
-  //проверка на завершение таймера
-  if (moment(timerDate).diff(currentDate) <= 0) {
-    clearInterval(intervalID);
-    headerComplete.classList.remove('hide');
-    headerComplete.textContent = `${headerValue} завершился ${timerDate}`;
-    return;
-  }
-  const days = Math.floor(moment(timerDate).diff(currentDate, 'days'));
-  const hours = Math.floor(moment(timerDate).diff(currentDate, 'hours') % 24);
-  const minutes = Math.floor(
-    moment(timerDate).diff(currentDate, 'minutes') % 60);
-  const seconds = Math.floor(
-    moment(timerDate).diff(currentDate, 'seconds') % 60);
-  document.querySelector('.numbers').textContent = 
-  `${putZero(days)}:${putZero(hours)}:${putZero(minutes)}:${putZero(seconds)}`;
-};
-
-
 const startCount = () => {
     switchScreen();
-    countDown();
+    timer.countDown();
     //вызываем функцию каждую секунду
-    intervalID = setInterval(countDown, 1000);
+    intervalID = setInterval(timer.countDown, 1000);
   
 }
 
@@ -85,18 +90,18 @@ const startTimer = () => {
   headerValue = header.value;
   timerHeader.innerHTML = headerValue; 
   //дату отсчета запоминаем в переменную
-  timerDate = dateMonth.value;
+  this.timerDate = dateMonth.value;
   
   localStorage.setItem('header', headerValue);
-  localStorage.setItem('date', timerDate);
+  localStorage.setItem('date', this.timerDate);
   
   //проверка значения даты
   //проверка дата уже прошла
-  if (moment(timerDate).isBefore(currentDate)) {
+  if (moment(this.timerDate).isBefore(this.currentDate)) {
     alert("Дата уже прошла");
     return;
   }
-  if (timerDate === '') {
+  if (this.timerDate === '') {
     alert("Пожалуйста введите дату");
   } else {
     startCount();
@@ -112,7 +117,7 @@ const isStorage = () => {
   }
   if (!!headerStorage) {
     timerHeader.textContent = headerStorage;
-    timerDate = dateStorage;
+    this.timerDate = dateStorage;
   }
   
   startCount();
