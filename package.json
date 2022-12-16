@@ -1,0 +1,24 @@
+{
+  "name": "count-down-timer",
+  "version": "1.0.0",
+  "description": "Проект \"Таймер обратного отсчёта\" (Count Down Timer).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Laraleeny/Count-Down-Timer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Laraleeny/Count-Down-Timer/issues"
+  },
+  "homepage": "https://github.com/Laraleeny/Count-Down-Timer#readme",
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
