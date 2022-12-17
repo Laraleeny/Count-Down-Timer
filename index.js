@@ -17,14 +17,15 @@ class Timer {
     this.intervalID = null;
   }
 
-  // setDate(){
-  //   this.timerDate = dateMonth.value;
-  // }
+  init() {
+    this.countDown();
+    // вызываем функцию каждую секунду
+    this.intervalID = setInterval(this.countDown.bind(this), 1000);
+  }
 
   // создаем функцию для добовления "0" перед значением
   putZero(dateID) {
-    const result = dateID < 10 ? `0${dateID}` : dateID;
-    return result;
+    return dateID < 10 ? `0${dateID}` : dateID;
   }
 
   // создаем функцию с обратным отсчетом
@@ -32,6 +33,7 @@ class Timer {
     this.currentDate = moment();
 
     // проверка на завершение таймера
+
     if (moment(this.timerDate).diff(this.currentDate) <= 0) {
       clearInterval(this.intervalID);
       headerComplete.classList.remove('hide');
@@ -42,14 +44,8 @@ class Timer {
     const hours = Math.floor(moment(this.timerDate).diff(this.currentDate, 'hours') % 24);
     const minutes = Math.floor(moment(this.timerDate).diff(this.currentDate, 'minutes') % 60);
     const seconds = Math.floor(moment(this.timerDate).diff(this.currentDate, 'seconds') % 60);
-    document.querySelector('.numbers').textContent = `${this.putZero(days)}:${this.putZero(hours)}:${this.putZero(
-      minutes)}:${this.putZero(seconds)}`;
-  }
-
-  init() {
-    this.countDown();
-    // вызываем функцию каждую секунду
-    this.intervalID = setInterval(this.countDown.bind(this), 1000);
+    const counter = `${this.putZero(days)}:${this.putZero(hours)}:${this.putZero(minutes)}:${this.putZero(seconds)}`;
+    document.querySelector('.numbers').textContent = counter;
   }
 
   // проверка значения даты
@@ -62,10 +58,9 @@ class Timer {
     }
     if (this.timerDate === '') {
       alert('Пожалуйста введите дату');
-      // return;
-    } else {
-      startCount();
+      return;
     }
+    startCount();
   }
 }
 
@@ -101,27 +96,25 @@ const switchScreen = () => {
 
 const startCount = (localData) => {
   switchScreen();
-  localData? timer = new Timer(localData) :  timer = new Timer(dateMonth.value);
+  timer = new Timer(localData? localData : dateMonth.value);
   timer.init();
+  // меняем значение заголовка
+  headerValue = header.value;
+  timerHeader.innerHTML = headerValue;
+  localStorage.setItem('header', headerValue);
+  localStorage.setItem('date', timer.timerDate);
 };
 
 // при нажатии кнопки "Начать" запускается таймер
 const startTimer = () => {
   timer = new Timer(dateMonth.value);
   timer.checkDate();
-  // меняем значение заголовка
-  headerValue = header.value;
-  if (!!headerValue) {
-    timerHeader.innerHTML = headerValue;
-  }
-
-  localStorage.setItem('header', headerValue);
-  localStorage.setItem('date', timer.timerDate);
 };
 
 const isStorage = () => {
   const headerStorage = localStorage.getItem('header');
   const dateStorage = localStorage.getItem('date');
+  
   if (!headerStorage && !dateStorage) {
     return;
   }
