@@ -1,4 +1,4 @@
-import '/path-to-styles.css';
+import '../style.css';
 // создать переменные
 const header = document.querySelector('#title-date');
 const timerHeader = document.querySelector('h1');
