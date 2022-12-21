@@ -1,3 +1,4 @@
+import '/path-to-styles.css';
 // создать переменные
 const header = document.querySelector('#title-date');
 const timerHeader = document.querySelector('h1');
@@ -60,6 +61,11 @@ class Timer {
       alert('Пожалуйста введите дату');
       return;
     }
+    // меняем значение заголовка
+    headerValue = header.value;
+    timerHeader.innerHTML = headerValue;
+    localStorage.setItem('header', headerValue);
+    localStorage.setItem('date', this.timerDate);
     startCount();
   }
 }
@@ -81,6 +87,7 @@ const handleReset = () => {
 
   localStorage.removeItem('header');
   localStorage.removeItem('date');
+  timer = null;
 };
 
 btnReset.addEventListener('click', handleReset);
@@ -98,11 +105,7 @@ const startCount = (localData) => {
   switchScreen();
   timer = new Timer(localData? localData : dateMonth.value);
   timer.init();
-  // меняем значение заголовка
-  headerValue = header.value;
-  timerHeader.innerHTML = headerValue;
-  localStorage.setItem('header', headerValue);
-  localStorage.setItem('date', timer.timerDate);
+  timerHeader.innerHTML = localStorage.getItem('header');
 };
 
 // при нажатии кнопки "Начать" запускается таймер
