@@ -45,14 +45,14 @@ const switchScreen = () => {
 
 export const startCount = (localData) => {
   switchScreen();
-  timer = new Timer(localData? localData : dateMonth.value);
+  timer = new Timer(localData? localData : dateMonth.value, header.value);
   timer.init();
   timerHeader.innerHTML = localStorage.getItem('header');
 };
 
 // при нажатии кнопки "Начать" запускается таймер
 const startTimer = () => {
-  timer = new Timer(dateMonth.value);
+  timer = new Timer(dateMonth.value, header.value);
   timer.checkDate();
 };
 

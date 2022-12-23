@@ -1,11 +1,11 @@
 import { header, timerHeader, startCount } from './index.js';
 
 export default class Timer {
-  constructor(date) {
+  constructor(date, title) {
     this.timerDate = date;
     this.currentDate = null;
     this.intervalID = null;
-    this.headerValue = '';
+    this.headerValue = title;
   }
   
   init() {
@@ -52,7 +52,6 @@ export default class Timer {
       return;
     }
     // меняем значение заголовка
-    this.headerValue = header.value;
     timerHeader.innerHTML = this.headerValue;
     localStorage.setItem('header', this.headerValue);
     localStorage.setItem('date', this.timerDate);
