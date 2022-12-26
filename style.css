@@ -9,8 +9,8 @@
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #4776E6; 
-  background: -webkit-linear-gradient(to right, #8E54E9, #4776E6); 
+  background: #4776E6;
+  background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
   background: linear-gradient(to right, #8E54E9, #4776E6);
   display: flex;
   justify-content: center;
